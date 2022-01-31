@@ -1,11 +1,13 @@
 package com.emizen.imagepicker
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import com.instaimagepicker.Picker
@@ -31,5 +33,12 @@ class MainActivity : AppCompatActivity() {
                 Log.d("image", value.toString())
             }
         }
+
+    companion object{
+        fun onClick(context: Context){
+       Toast.makeText(context,"hello",Toast.LENGTH_LONG).show()
+        }
+    }
+
 
 }
