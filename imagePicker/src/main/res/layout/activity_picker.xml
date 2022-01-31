@@ -7,14 +7,14 @@
 
         <variable
             name="adapter"
-            type="com.instaimagepicker.PickerAdapter" />
+            type="com.emizen.imagepicker.PickerAdapter" />
     </data>
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:background="@color/white"
-        tools:context="com.instaimagepicker.Picker">
+        tools:context="com.instaimagepicker.com.emizen.imagepicker.Picker">
 
 
         <androidx.constraintlayout.widget.ConstraintLayout

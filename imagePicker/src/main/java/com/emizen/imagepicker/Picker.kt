@@ -1,30 +1,32 @@
 package com.instaimagepicker
 
-import android.database.Cursor
-import android.net.Uri
-import androidx.appcompat.app.AppCompatActivity
-import android.os.Bundle
-import android.view.View
-import androidx.databinding.DataBindingUtil
-import com.instaimagepicker.databinding.ActivityPickerBinding
-import android.provider.MediaStore
-import android.provider.MediaStore.MediaColumns
-
 import android.app.Activity
 import android.content.Intent
+import android.database.Cursor
 import android.media.MediaPlayer
+import android.net.Uri
+import android.os.Bundle
+import android.provider.MediaStore
+import android.provider.MediaStore.MediaColumns
+import android.view.View
+import androidx.appcompat.app.AppCompatActivity
+import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
+import com.emizen.imagepicker.PickerAdapter
+import com.emizen.imagepicker.PickerModel
+import com.emizen.imagepicker.R
+import com.emizen.imagepicker.databinding.ActivityPickerBinding
 
 
 class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
     var adapter: PickerAdapter? = null
-    var model: ArrayList<PickerModel>?= ArrayList()
+    var model: ArrayList<PickerModel>? = ArrayList()
     var dataBinding: ActivityPickerBinding? = null
-    var position: Int? = -0;
+    var position: Int? = -0
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dataBinding = DataBindingUtil.setContentView(this,R.layout.activity_picker)
+        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_picker)
         init()
     }
 
@@ -46,12 +48,12 @@ class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
         dataBinding?.videos?.setOnClickListener {
             getAllShownVideosPath()
         }
-        adapter = PickerAdapter(this@Picker,model!!)
-        dataBinding?.adapter=adapter
+        adapter = PickerAdapter(this@Picker, model!!)
+        dataBinding?.adapter = adapter
         adapter!!.setOnItemCliclListener(this)
     }
 
-    private fun getAllShownImagesPath(){
+    private fun getAllShownImagesPath() {
         model?.clear()
         val uri: Uri
         val cursor: Cursor?
@@ -68,25 +70,26 @@ class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
             null, null
         )
         column_index_data = cursor!!.getColumnIndexOrThrow(MediaColumns.DATA)
-        column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
+        column_index_folder_name =
+            cursor.getColumnIndexOrThrow(MediaStore.Images.Media.BUCKET_DISPLAY_NAME)
         while (cursor.moveToNext()) {
             absolutePathOfImage = cursor.getString(column_index_data)
             val listOfAllImages = PickerModel(absolutePathOfImage)
             model?.add(listOfAllImages)
         }
         adapter?.notifyDataSetChanged()
-        position=0;
-        dataBinding?.imageShow!!.visibility=View.VISIBLE
-        dataBinding?.videoView?.visibility=View.GONE
+        position = 0
+        dataBinding?.imageShow!!.visibility = View.VISIBLE
+        dataBinding?.videoView?.visibility = View.GONE
         Glide.with(this@Picker)
             .load(model!![0].imagePath)
             .centerCrop()
-            .placeholder(R.drawable.ic_launcher_background)
+//            .placeholder(R.drawable.ic_launcher_background)
             .into(dataBinding?.imageShow!!)
     }
 
 
-    private fun getAllShownVideosPath(){
+    private fun getAllShownVideosPath() {
         model?.clear()
         val uri: Uri
         val cursor: Cursor?
@@ -103,7 +106,8 @@ class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
             null, null
         )
         column_index_data = cursor!!.getColumnIndexOrThrow(MediaColumns.DATA)
-        column_index_folder_name = cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
+        column_index_folder_name =
+            cursor.getColumnIndexOrThrow(MediaStore.Video.Media.BUCKET_DISPLAY_NAME)
         while (cursor.moveToNext()) {
             absolutePathOfImage = cursor.getString(column_index_data)
             val listOfAllImages = PickerModel(absolutePathOfImage)
@@ -112,9 +116,9 @@ class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
         }
         adapter?.notifyDataSetChanged()
 
-        position=0;
-        dataBinding?.imageShow!!.visibility=View.GONE
-        dataBinding?.videoView?.visibility=View.VISIBLE
+        position = 0
+        dataBinding?.imageShow!!.visibility = View.GONE
+        dataBinding?.videoView?.visibility = View.VISIBLE
         dataBinding?.videoView?.setVideoURI(Uri.parse(model!![position!!].imagePath))
         dataBinding?.videoView?.setOnPreparedListener(MediaPlayer.OnPreparedListener { mp ->
             mp.isLooping = true
@@ -126,9 +130,9 @@ class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
     }
 
     override fun onItemClick(position: Int) {
-        if (model!![position].imagePath.split(".").toString() ==".mp4"){
-            dataBinding?.imageShow!!.visibility=View.GONE
-            dataBinding?.videoView?.visibility=View.VISIBLE
+        if (model!![position].imagePath.split(".").toString() == ".mp4") {
+            dataBinding?.imageShow!!.visibility = View.GONE
+            dataBinding?.videoView?.visibility = View.VISIBLE
             dataBinding?.videoView?.setVideoURI(Uri.parse(model!![position].imagePath))
             dataBinding?.videoView?.setOnPreparedListener(MediaPlayer.OnPreparedListener { mp ->
                 mp.isLooping = true
@@ -137,9 +141,9 @@ class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
             dataBinding?.videoView?.setOnCompletionListener { mp ->
                 mp.release()
             }
-        }else{
-            dataBinding?.videoView?.visibility=View.GONE
-            dataBinding?.imageShow!!.visibility=View.VISIBLE
+        } else {
+            dataBinding?.videoView?.visibility = View.GONE
+            dataBinding?.imageShow!!.visibility = View.VISIBLE
             Glide.with(this@Picker)
                 .load(model!![position].imagePath)
                 .centerCrop()

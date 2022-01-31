@@ -1,4 +1,4 @@
-package com.instaimagepicker
+package com.emizen.imagepicker
 
 import android.content.Context
 import android.view.LayoutInflater
@@ -6,10 +6,11 @@ import android.view.ViewGroup
 import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
-import com.instaimagepicker.databinding.ListRowBinding
+import com.emizen.imagepicker.databinding.ListRowBinding
 
 
-class PickerAdapter (val context: Context, val model: ArrayList<PickerModel>) : RecyclerView.Adapter<PickerAdapter.ViewHolder>() {
+class PickerAdapter(val context: Context, val model: ArrayList<PickerModel>) :
+    RecyclerView.Adapter<PickerAdapter.ViewHolder>() {
     private var mListener: OnItemclickListener? = null
 
 
@@ -20,6 +21,7 @@ class PickerAdapter (val context: Context, val model: ArrayList<PickerModel>) : 
     fun setOnItemCliclListener(listener: OnItemclickListener?) {
         mListener = listener
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val binding: ListRowBinding = DataBindingUtil.inflate(
             LayoutInflater.from(parent.context),

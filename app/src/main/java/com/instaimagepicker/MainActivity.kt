@@ -1,29 +1,30 @@
 package com.instaimagepicker
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
-import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
+import android.widget.Button
+import android.widget.Toast
 import androidx.activity.result.ActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
-import androidx.databinding.DataBindingUtil
-import androidx.lifecycle.ViewModelProviders
-import com.instaimagepicker.databinding.ActivityMainBinding
+import androidx.appcompat.app.AppCompatActivity
 
 class MainActivity : AppCompatActivity() {
-    var dataBinding: ActivityMainBinding? = null;
-
+    var button: Button? = null
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_main)
-        dataBinding?.imagePicker?.setOnClickListener {
+        setContentView(R.layout.activity_main)
+
+        button = findViewById(R.id.imagePicker)
+        button?.setOnClickListener {
             startForResultLostItemFound.launch(Intent(this@MainActivity, Picker::class.java))
         }
     }
 
-    val startForResultLostItemFound =
+    private val startForResultLostItemFound =
         registerForActivityResult(ActivityResultContracts.StartActivityForResult()) { result: ActivityResult ->
             if (result.resultCode == Activity.RESULT_OK) {
                 var value = result.data?.getStringExtra("image")
@@ -31,5 +32,10 @@ class MainActivity : AppCompatActivity() {
             }
         }
 
+    companion object {
+        fun onClick(context: Context) {
+            Toast.makeText(context, "hello", Toast.LENGTH_LONG).show()
+        }
+    }
 
 }

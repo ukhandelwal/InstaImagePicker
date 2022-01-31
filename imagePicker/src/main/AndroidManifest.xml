@@ -3,9 +3,12 @@
     package="com.emizen.imagepicker">
 
     <application>
+
+
         <activity
-            android:name=".MainActivity"
+            android:name="com.instaimagepicker.Picker"
             android:exported="false" />
+
     </application>
 
 </manifest>
