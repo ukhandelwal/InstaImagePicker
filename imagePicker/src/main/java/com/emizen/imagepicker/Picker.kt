@@ -15,7 +15,7 @@ import com.bumptech.glide.Glide
 import com.emizen.imagepicker.databinding.ActivityPickerBinding
 
 
-class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
+open class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
     var adapter: PickerAdapter? = null
     var model: ArrayList<PickerModel>? = ArrayList()
     var dataBinding: ActivityPickerBinding? = null
