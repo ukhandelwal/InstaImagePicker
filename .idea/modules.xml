@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ProjectModuleManager">
+    <modules>
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/InstaImagePicker.iml" filepath="$PROJECT_DIR$/.idea/modules/InstaImagePicker.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/app/InstaImagePicker.app.iml" filepath="$PROJECT_DIR$/.idea/modules/app/InstaImagePicker.app.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/modules/imagePicker/InstaImagePicker.imagePicker.iml" filepath="$PROJECT_DIR$/.idea/modules/imagePicker/InstaImagePicker.imagePicker.iml" />
+    </modules>
+  </component>
+</project>
