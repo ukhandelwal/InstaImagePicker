@@ -72,7 +72,6 @@ class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
         while (cursor.moveToNext()) {
             absolutePathOfImage = cursor.getString(column_index_data)
             val listOfAllImages = PickerModel(absolutePathOfImage)
-//            Log.e("getAllShownImagesPath: ","absolutePathOfImage -"+ absolutePathOfImage)
             model?.add(listOfAllImages)
         }
         adapter?.notifyDataSetChanged()
