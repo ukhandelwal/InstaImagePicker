@@ -3,11 +3,15 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/udit/testing/InstaImagePicker/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.362962962962963" />
         <entry key="..\:/udit/testing/InstaImagePicker/app/src/main/res/drawable/ic_launcher_background.xml" value="0.362962962962963" />
         <entry key="..\:/udit/testing/InstaImagePicker/app/src/main/res/layout/activity_main.xml" value="0.35989583333333336" />
         <entry key="..\:/udit/testing/InstaImagePicker/app/src/main/res/layout/activity_picker.xml" value="0.32037037037037036" />
         <entry key="..\:/udit/testing/InstaImagePicker/app/src/main/res/layout/list_row.xml" value="0.32037037037037036" />
+        <entry key="..\:/udit/testing/InstaImagePicker/imagePicker/src/main/res/drawable/ic_baseline_close_24.xml" value="0.362962962962963" />
         <entry key="..\:/udit/testing/InstaImagePicker/imagePicker/src/main/res/layout/activity_main.xml" value="0.35989583333333336" />
+        <entry key="..\:/udit/testing/InstaImagePicker/imagePicker/src/main/res/layout/activity_picker.xml" value="0.35989583333333336" />
+        <entry key="..\:/udit/testing/InstaImagePicker/imagePicker/src/main/res/layout/list_row.xml" value="0.35989583333333336" />
       </map>
     </option>
   </component>
@@ -16,5 +20,12 @@
   </component>
   <component name="ProjectType">
     <option name="id" value="Android" />
+  </component>
+  <component name="VisualizationToolProject">
+    <option name="state">
+      <ProjectState>
+        <option name="scale" value="0.35989583333333336" />
+      </ProjectState>
+    </option>
   </component>
 </project>

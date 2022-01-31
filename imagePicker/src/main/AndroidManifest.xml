@@ -6,7 +6,7 @@
 
 
         <activity
-            android:name="com.instaimagepicker.Picker"
+            android:name=".Picker"
             android:exported="false" />
 
     </application>

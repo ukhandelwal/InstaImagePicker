@@ -1,4 +1,4 @@
-package com.instaimagepicker
+package com.emizen.imagepicker
 
 import android.app.Activity
 import android.content.Intent
@@ -12,9 +12,6 @@ import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
-import com.emizen.imagepicker.PickerAdapter
-import com.emizen.imagepicker.PickerModel
-import com.emizen.imagepicker.R
 import com.emizen.imagepicker.databinding.ActivityPickerBinding
 
 
