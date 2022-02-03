@@ -1,7 +1,9 @@
 package com.emizen.imagepicker
 
 import android.app.Activity
+import android.content.Context
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.database.Cursor
 import android.media.MediaPlayer
 import android.net.Uri
@@ -14,6 +16,8 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
 import com.bumptech.glide.Glide
 import com.emizen.imagepicker.databinding.ActivityPickerBinding
+import com.emizen.imagepicker.utils.checkCameraHardware
+import com.emizen.imagepicker.utils.makeToast
 
 
 open class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
@@ -31,6 +35,13 @@ open class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
 
 
     private fun init() {
+        dataBinding?.camera?.setOnClickListener {
+            if (checkCameraHardware(this@Picker)) {
+                startActivity(Intent(this@Picker, LiveCameraActivity::class.java))
+            } else {
+                makeToast(this@Picker, "Camera Not Found")
+            }
+        }
         dataBinding?.next?.setOnClickListener {
             val intent = Intent()
             intent.putExtra("image", model!![position!!].imagePath.toString())
@@ -85,7 +96,7 @@ open class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
             .centerCrop()
             .placeholder(R.drawable.ic_launcher_background)
             .into(dataBinding?.imageShow!!)
-        Log.e("getAllShownImagesPath: ","total Images -"+ model?.size)
+        Log.e("getAllShownImagesPath: ", "total Images -" + model?.size)
     }
 
 
@@ -127,11 +138,14 @@ open class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
         dataBinding?.videoView?.setOnCompletionListener { mp ->
             mp.release()
         }
-        Log.e("getAllShownVideosPath: ","total Video -"+ model?.size)
+        Log.e("getAllShownVideosPath: ", "total Video -" + model?.size)
     }
 
     override fun onItemClick(position: Int) {
-        if (model!![position].imagePath.split(".").toString() == ".mp4") {
+        Log.e("onItemClick: ", model!![position].imagePath.substring(model!![position].imagePath.lastIndexOf(".") + 1).toString())
+        if (model!![position].imagePath.substring(model!![position].imagePath.lastIndexOf(".") + 1)
+                .toString() == "mp4") {
+            Log.e("onItemClick: ", "video")
             dataBinding?.imageShow!!.visibility = View.GONE
             dataBinding?.videoView?.visibility = View.VISIBLE
             dataBinding?.videoView?.setVideoURI(Uri.parse(model!![position].imagePath))
@@ -143,6 +157,7 @@ open class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
                 mp.release()
             }
         } else {
+            Log.e("onItemClick: ", "image")
             dataBinding?.videoView?.visibility = View.GONE
             dataBinding?.imageShow!!.visibility = View.VISIBLE
             Glide.with(this@Picker)

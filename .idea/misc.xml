@@ -3,6 +3,8 @@
   <component name="DesignSurface">
     <option name="filePathToZoomLevelMap">
       <map>
+        <entry key="..\:/AndroidStudioProject/lib/InstaImagePicker/imagePicker/src/main/res/layout/activity_live_camera.xml" value="0.18888888888888888" />
+        <entry key="..\:/AndroidStudioProject/lib/InstaImagePicker/imagePicker/src/main/res/layout/activity_picker.xml" value="0.18888888888888888" />
         <entry key="..\:/udit/testing/InstaImagePicker/app/src/main/res/drawable/ic_baseline_arrow_forward_24.xml" value="0.362962962962963" />
         <entry key="..\:/udit/testing/InstaImagePicker/app/src/main/res/drawable/ic_launcher_background.xml" value="0.362962962962963" />
         <entry key="..\:/udit/testing/InstaImagePicker/app/src/main/res/layout/activity_main.xml" value="0.35989583333333336" />

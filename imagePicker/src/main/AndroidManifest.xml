@@ -2,12 +2,16 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.emizen.imagepicker">
 
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+    <uses-permission android:name="android.permission.RECORD_AUDIO" />
+
     <application>
 
 
         <activity
             android:name=".Picker"
             android:exported="false" />
+        <activity android:name=".LiveCameraActivity" />
 
     </application>
 
