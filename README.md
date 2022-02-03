@@ -1,3 +1,11 @@
+![Alt text](/../InstaImagePicker/imagePicker/src/main/res/drawable/screen_first.png?raw=true "")
+![Alt text](/../InstaImagePicker/imagePicker/src/main/res/drawable/screen_two.png.png?raw=true "")
+
+![Alt text](/../https://github.com/ukhandelwal/InstaImagePicker/tree/main/imagePicker/src/main/res/drawable/screen_two.png.png?raw=true "")
+
+
+
+
 # Instagram Media Picker
 
 Hello everyone, Welcome To this repo in this repo we do simply Instagram Media Picker via Photos and Videos.
