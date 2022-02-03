@@ -31,8 +31,8 @@ dependencies {
 
 ## Usage
 
-```python
-import foobar
+```kotlin
+import com.emizen.imagepicker.Picker
 
 button?.setOnClickListener {
             startForResultLostItemFound.launch(Intent(this@MainActivity, Picker::class.java))
