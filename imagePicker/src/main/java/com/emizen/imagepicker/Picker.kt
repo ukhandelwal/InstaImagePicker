@@ -8,6 +8,7 @@ import android.net.Uri
 import android.os.Bundle
 import android.provider.MediaStore
 import android.provider.MediaStore.MediaColumns
+import android.util.Log
 import android.view.View
 import androidx.appcompat.app.AppCompatActivity
 import androidx.databinding.DataBindingUtil
@@ -24,6 +25,7 @@ open class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_picker)
+        getAllShownImagesPath()
         init()
     }
 
@@ -81,8 +83,9 @@ open class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
         Glide.with(this@Picker)
             .load(model!![0].imagePath)
             .centerCrop()
-//            .placeholder(R.drawable.ic_launcher_background)
+            .placeholder(R.drawable.ic_launcher_background)
             .into(dataBinding?.imageShow!!)
+        Log.e("getAllShownImagesPath: ","total Images -"+ model?.size)
     }
 
 
@@ -124,6 +127,7 @@ open class Picker : AppCompatActivity(), PickerAdapter.OnItemclickListener {
         dataBinding?.videoView?.setOnCompletionListener { mp ->
             mp.release()
         }
+        Log.e("getAllShownVideosPath: ","total Video -"+ model?.size)
     }
 
     override fun onItemClick(position: Int) {
