@@ -2,8 +2,12 @@ package com.emizen.imagepicker
 
 import android.content.Context
 import android.content.pm.PackageManager
+import android.graphics.drawable.Drawable
+import android.widget.ImageView
 import android.widget.Toast
-import java.time.Duration
+import com.bumptech.glide.Glide
+import com.bumptech.glide.load.resource.drawable.DrawableTransitionOptions
+
 
 object utils {
     /** Check if this device has a camera */
@@ -15,6 +19,14 @@ object utils {
             // no camera on this device
             return false
         }
+    }
+
+    fun  loadImage(context: Context,url: String,imageView: ImageView){
+        Glide.with(context)
+            .load(url)
+            .transition(DrawableTransitionOptions.withCrossFade())
+            .placeholder(R.drawable.placeholder)
+            .into(imageView)
     }
 
 

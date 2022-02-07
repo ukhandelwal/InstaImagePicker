@@ -6,12 +6,14 @@ import android.content.ContentValues
 import android.content.pm.PackageManager
 import android.graphics.SurfaceTexture
 import android.hardware.Camera
+import android.net.Uri
 import android.os.Build
 import android.os.Bundle
 import android.provider.MediaStore
 import android.util.Log
 import android.view.TextureView
 import android.view.TextureView.SurfaceTextureListener
+import android.view.View
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import androidx.camera.core.CameraSelector
@@ -32,26 +34,34 @@ import java.util.concurrent.ExecutorService
 import java.util.concurrent.Executors
 
 
-class LiveCameraActivity : AppCompatActivity(){
+class LiveCameraActivity : AppCompatActivity() {
     private var imageCapture: ImageCapture? = null
     private var videoCapture: VideoCapture<Recorder>? = null
     private var recording: Recording? = null
+    private var uri: Uri? = null
     private lateinit var cameraExecutor: ExecutorService
 
-    var dataBinding: ActivityLiveCameraBinding?=null;
+    var dataBinding: ActivityLiveCameraBinding? = null;
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         dataBinding = DataBindingUtil.setContentView(this, R.layout.activity_live_camera)
         cameraExecutor = Executors.newSingleThreadExecutor()
+
+        dataBinding?.layoutOne?.visibility = View.VISIBLE
+        dataBinding?.layoutTwo?.visibility = View.GONE
         startCamera()
+        dataBinding?.close?.setOnClickListener {
+            uri=null
+            dataBinding?.layoutOne?.visibility = View.VISIBLE
+            dataBinding?.layoutTwo?.visibility = View.GONE
+        }
         dataBinding?.imageCaptureButton?.setOnClickListener {
             takePhoto()
         }
         dataBinding?.videoCaptureButton?.setOnClickListener {
             captureVideo()
         }
-
     }
 
     private fun takePhoto() {
@@ -64,16 +74,18 @@ class LiveCameraActivity : AppCompatActivity(){
         val contentValues = ContentValues().apply {
             put(MediaStore.MediaColumns.DISPLAY_NAME, name)
             put(MediaStore.MediaColumns.MIME_TYPE, "image/jpeg")
-            if(Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
+            if (Build.VERSION.SDK_INT > Build.VERSION_CODES.P) {
                 put(MediaStore.Images.Media.RELATIVE_PATH, "Pictures/CameraX-Image")
             }
         }
 
         // Create output options object which contains file + metadata
         val outputOptions = ImageCapture.OutputFileOptions
-            .Builder(contentResolver,
+            .Builder(
+                contentResolver,
                 MediaStore.Images.Media.EXTERNAL_CONTENT_URI,
-                contentValues)
+                contentValues
+            )
             .build()
 
         // Set up image capture listener, which is triggered after photo has
@@ -86,11 +98,13 @@ class LiveCameraActivity : AppCompatActivity(){
                     Log.e(TAG, "Photo capture failed: ${exc.message}", exc)
                 }
 
-                override fun
-                        onImageSaved(output: ImageCapture.OutputFileResults){
+                override fun onImageSaved(output: ImageCapture.OutputFileResults) {
                     val msg = "Photo capture succeeded: ${output.savedUri}"
-                    makeToast(this@LiveCameraActivity,msg)
                     Log.d(TAG, msg)
+                    uri=output.savedUri
+                    dataBinding?.layoutOne?.visibility=View.GONE
+                    dataBinding?.layoutTwo?.visibility=View.VISIBLE
+                    utils.loadImage(this@LiveCameraActivity, uri.toString(), dataBinding!!.imageView)
                 }
             }
         )
@@ -128,15 +142,17 @@ class LiveCameraActivity : AppCompatActivity(){
         recording = videoCapture.output
             .prepareRecording(this, mediaStoreOutputOptions)
             .apply {
-                if (PermissionChecker.checkSelfPermission(this@LiveCameraActivity,
-                        Manifest.permission.RECORD_AUDIO) ==
-                    PermissionChecker.PERMISSION_GRANTED)
-                {
+                if (PermissionChecker.checkSelfPermission(
+                        this@LiveCameraActivity,
+                        Manifest.permission.RECORD_AUDIO
+                    ) ==
+                    PermissionChecker.PERMISSION_GRANTED
+                ) {
                     withAudioEnabled()
                 }
             }
             .start(ContextCompat.getMainExecutor(this)) { recordEvent ->
-                when(recordEvent) {
+                when (recordEvent) {
                     is VideoRecordEvent.Start -> {
                         dataBinding?.videoCaptureButton?.apply {
                             text = getString(R.string.stop_capture)
@@ -153,8 +169,10 @@ class LiveCameraActivity : AppCompatActivity(){
                         } else {
                             recording?.close()
                             recording = null
-                            Log.e(TAG, "Video capture ends with error: " +
-                                    "${recordEvent.error}")
+                            Log.e(
+                                TAG, "Video capture ends with error: " +
+                                        "${recordEvent.error}"
+                            )
                         }
                         dataBinding?.videoCaptureButton?.apply {
                             text = getString(R.string.start_capture)
@@ -191,46 +209,16 @@ class LiveCameraActivity : AppCompatActivity(){
 
                 // Bind use cases to camera
                 cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview, imageCapture)
+                    this, cameraSelector, preview, imageCapture
+                )
 
-            } catch(exc: Exception) {
+            } catch (exc: Exception) {
                 Log.e(TAG, "Use case binding failed", exc)
             }
 
         }, ContextCompat.getMainExecutor(this))
     }
 
-    private fun startCameraq() {
-        val cameraProviderFuture = ProcessCameraProvider.getInstance(this)
-
-        cameraProviderFuture.addListener({
-            // Used to bind the lifecycle of cameras to the lifecycle owner
-            val cameraProvider: ProcessCameraProvider = cameraProviderFuture.get()
-
-            // Preview
-            val preview = Preview.Builder()
-                .build()
-                .also {
-                    it.setSurfaceProvider(dataBinding?.viewFinder?.surfaceProvider)
-                }
-
-            // Select back camera as a default
-            val cameraSelector = CameraSelector.DEFAULT_BACK_CAMERA
-
-            try {
-                // Unbind use cases before rebinding
-                cameraProvider.unbindAll()
-
-                // Bind use cases to camera
-                cameraProvider.bindToLifecycle(
-                    this, cameraSelector, preview)
-
-            } catch(exc: Exception) {
-                Log.e(TAG, "Use case binding failed", exc)
-            }
-
-        }, ContextCompat.getMainExecutor(this))
-    }
 
     private fun allPermissionsGranted() = REQUIRED_PERMISSIONS.all {
         ContextCompat.checkSelfPermission(baseContext, it) == PackageManager.PERMISSION_GRANTED
@@ -246,7 +234,7 @@ class LiveCameraActivity : AppCompatActivity(){
         private const val FILENAME_FORMAT = "yyyy-MM-dd-HH-mm-ss-SSS"
         private const val REQUEST_CODE_PERMISSIONS = 10
         private val REQUIRED_PERMISSIONS =
-            mutableListOf (
+            mutableListOf(
                 Manifest.permission.CAMERA,
                 Manifest.permission.RECORD_AUDIO
             ).apply {

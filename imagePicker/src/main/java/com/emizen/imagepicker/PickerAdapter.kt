@@ -7,6 +7,7 @@ import androidx.databinding.DataBindingUtil
 import androidx.recyclerview.widget.RecyclerView
 import com.bumptech.glide.Glide
 import com.emizen.imagepicker.databinding.ListRowBinding
+import com.emizen.imagepicker.utils.loadImage
 
 
 class PickerAdapter(val context: Context, val model: ArrayList<PickerModel>) :
@@ -35,11 +36,7 @@ class PickerAdapter(val context: Context, val model: ArrayList<PickerModel>) :
 
     override fun onBindViewHolder(viewHolder: ViewHolder, position: Int) {
         viewHolder.binding.image.let {
-            Glide.with(context)
-                .load(model[position].imagePath)
-                .centerCrop()
-                .placeholder(R.drawable.ic_launcher_background)
-                .into(viewHolder.binding.image)
+            loadImage(context,model[position].imagePath,it)
         }
         viewHolder.binding.image.setOnClickListener {
             if (mListener != null) {
